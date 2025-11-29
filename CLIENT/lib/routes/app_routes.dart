@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../features/home/screens/home_screen.dart';
 import '../features/letter/screens/letter_list_screen.dart';
@@ -6,16 +7,26 @@ import '../features/letter/screens/letter_detail_screen.dart';
 import '../features/letter/screens/letter_template_form_screen.dart';
 import '../features/letter/models/letter_format.dart';
 
-final appRouter = GoRouter(
-  initialLocation: '/',
+import '../features/form/screen/form_surat_page.dart';
+import '../features/form/screen/hrd_list_page.dart';
+import '../features/form/screen/hrd_detail_page.dart';
+
+class AppRoutes {
+  static const formSurat = "/form-surat";
+  static const hrdList = "/hrd-list";
+  static const detailSurat = "/detail-surat";
+}
+
+final GoRouter appRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const HomeScreen(),
+      builder: (context, state) => const FormSuratPage(),
     ),
+
     GoRoute(
-      path: '/letters',
-      builder: (context, state) => const LettersListScreen(),
+      path: AppRoutes.formSurat,
+      builder: (context, state) => const FormSuratPage(),
     ),
     // Create template baru
     GoRoute(
@@ -38,12 +49,11 @@ final appRouter = GoRouter(
         return LetterCreateScreen(jenisSurat: extra);
       },
     ),
+
     GoRoute(
-      path: '/letter/:id',
-      builder: (context, state) {
-        final id = int.parse(state.pathParameters['id']!);
-        return LetterDetailScreen(id: id);
-      },
+      path: AppRoutes.detailSurat,
+      builder: (context, state) =>
+          HrdDetailPage(surat: state.extra as Map<String, dynamic>),
     ),
   ],
 );

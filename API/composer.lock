@@ -4,6 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
+    "content-hash": "d3c16cb86c42230c6c023d9a5d9bcf42",
+    "packages": [
+        {
+=======
     "content-hash": "d3ba5206fc1aa7f6cfbb393efc02a955",
     "packages": [
         {
@@ -84,6 +89,7 @@
             "time": "2025-02-13T15:07:54+00:00"
         },
         {
+>>>>>>> 3e544c07ad744a462140f624dcff9c15f3812863
             "name": "brick/math",
             "version": "0.14.0",
             "source": {
@@ -455,6 +461,8 @@
             "time": "2024-02-05T11:56:58+00:00"
         },
         {
+<<<<<<< HEAD
+=======
             "name": "dompdf/dompdf",
             "version": "v3.1.4",
             "source": {
@@ -610,6 +618,7 @@
             "time": "2024-04-29T13:26:35+00:00"
         },
         {
+>>>>>>> 3e544c07ad744a462140f624dcff9c15f3812863
             "name": "dragonmantank/cron-expression",
             "version": "v3.6.0",
             "source": {
@@ -2305,6 +2314,8 @@
             "time": "2024-12-08T08:18:47+00:00"
         },
         {
+<<<<<<< HEAD
+=======
             "name": "masterminds/html5",
             "version": "2.10.0",
             "source": {
@@ -2372,6 +2383,7 @@
             "time": "2025-07-25T09:04:22+00:00"
         },
         {
+>>>>>>> 3e544c07ad744a462140f624dcff9c15f3812863
             "name": "monolog/monolog",
             "version": "3.9.0",
             "source": {
@@ -3643,6 +3655,8 @@
             "time": "2025-09-04T20:59:21+00:00"
         },
         {
+<<<<<<< HEAD
+=======
             "name": "sabberworm/php-css-parser",
             "version": "v8.9.0",
             "source": {
@@ -3709,6 +3723,7 @@
             "time": "2025-07-11T13:20:48+00:00"
         },
         {
+>>>>>>> 3e544c07ad744a462140f624dcff9c15f3812863
             "name": "symfony/clock",
             "version": "v7.3.0",
             "source": {
