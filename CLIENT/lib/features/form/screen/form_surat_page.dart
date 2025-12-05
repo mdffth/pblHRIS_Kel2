@@ -17,25 +17,47 @@ class _FormSuratPageState extends State<FormSuratPage> {
   final TextEditingController departemenController = TextEditingController();
 
   final LetterController letterController = LetterController();
-  
+
   List<LetterFormat> templateList = [];
   LetterFormat? selectedTemplate;
   DateTime? selectedDate;
+
   bool isLoading = true;
+
+  int? employeeId;
+  int? positionId;
+  int? departmentId;
 
   @override
   void initState() {
     super.initState();
-    loadTemplates();
+    initData();
   }
 
-  Future<void> loadTemplates() async {
+  
+
+  Future<void> initData() async {
     setState(() => isLoading = true);
+
     try {
+      // 1. LOAD PROFILE
+      final profile = await ApiService.fetchProfile();
+      final data = profile?['data'];
+
+      employeeId = data['employee_id'];
+      positionId = data['position_id'];
+      departmentId = data['department_id'];
+
+      namaController.text = data['name'];
+      jabatanController.text = data['jabatan'];
+      departemenController.text = data['departemen'];
+
+      // 2. LOAD LETTER TEMPLATE
       templateList = await letterController.fetchLetterFormats();
     } catch (e) {
-      print('Error loading templates: $e');
+      print("ERROR: $e");
     }
+
     setState(() => isLoading = false);
   }
 
@@ -55,34 +77,29 @@ class _FormSuratPageState extends State<FormSuratPage> {
   }
 
   Future<void> submitSurat() async {
-    if (namaController.text.isEmpty ||
-        jabatanController.text.isEmpty ||
-        departemenController.text.isEmpty ||
-        selectedTemplate == null ||
-        selectedDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Semua field harus diisi!')),
-      );
+    if (selectedTemplate == null || selectedDate == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Semua field harus diisi!')));
       return;
     }
 
     final data = {
       'letter_format_id': selectedTemplate!.id,
-      'name': namaController.text,
-      'jabatan': jabatanController.text,
-      'departemen': departemenController.text,
+      'employee_id': employeeId,
+      'position_id': positionId,
+      'department_id': departmentId,
       'tanggal': selectedDate!.toIso8601String().split('T')[0],
     };
 
     try {
-      final success = await ApiService.createSurat(data);
-      
+      final success = await ApiService.createPengajuanSurat(data);
+
       if (success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Surat berhasil diajukan!')),
         );
-        
-        // Kembali ke home screen
+
         context.go('/');
       } else {
         if (mounted) {
@@ -93,14 +110,13 @@ class _FormSuratPageState extends State<FormSuratPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
 
-  // Widget input box cantik
   Widget inputBox({required Widget child}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
@@ -113,7 +129,7 @@ class _FormSuratPageState extends State<FormSuratPage> {
             color: Colors.black.withOpacity(0.05),
             blurRadius: 6,
             offset: const Offset(0, 3),
-          )
+          ),
         ],
       ),
       child: child,
@@ -123,14 +139,10 @@ class _FormSuratPageState extends State<FormSuratPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // soft blue background
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xffe7f2ff),
-              Color(0xffd3e8ff),
-            ],
+            colors: [Color(0xffe7f2ff), Color(0xffd3e8ff)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -142,15 +154,16 @@ class _FormSuratPageState extends State<FormSuratPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Back button
                   IconButton(
                     onPressed: () => context.pop(),
-                    icon: const Icon(Icons.arrow_back, color: Color(0xff1e6ab3)),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Color(0xff1e6ab3),
+                    ),
                   ),
-                  
+
                   const SizedBox(height: 5),
 
-                  // JUDUL
                   const Text(
                     "Form Pengajuan Surat",
                     style: TextStyle(
@@ -168,6 +181,7 @@ class _FormSuratPageState extends State<FormSuratPage> {
                     inputBox(
                       child: TextField(
                         controller: namaController,
+                        readOnly: true,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: "Nama Lengkap",
@@ -180,6 +194,7 @@ class _FormSuratPageState extends State<FormSuratPage> {
                     inputBox(
                       child: TextField(
                         controller: jabatanController,
+                        readOnly: true,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: "Jabatan",
@@ -192,6 +207,7 @@ class _FormSuratPageState extends State<FormSuratPage> {
                     inputBox(
                       child: TextField(
                         controller: departemenController,
+                        readOnly: true,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: "Departemen",
@@ -200,7 +216,7 @@ class _FormSuratPageState extends State<FormSuratPage> {
                     ),
                     const SizedBox(height: 18),
 
-                    // JENIS SURAT DROPDOWN (DINAMIS)
+                    // TEMPLATE
                     inputBox(
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<LetterFormat>(
@@ -226,7 +242,7 @@ class _FormSuratPageState extends State<FormSuratPage> {
                     ),
                     const SizedBox(height: 18),
 
-                    // TANGGAL
+                    // DATE
                     GestureDetector(
                       onTap: pickDate,
                       child: inputBox(
@@ -242,7 +258,10 @@ class _FormSuratPageState extends State<FormSuratPage> {
                                 color: Colors.blue,
                               ),
                             ),
-                            const Icon(Icons.calendar_month, color: Colors.blue),
+                            const Icon(
+                              Icons.calendar_month,
+                              color: Colors.blue,
+                            ),
                           ],
                         ),
                       ),
@@ -250,7 +269,6 @@ class _FormSuratPageState extends State<FormSuratPage> {
 
                     const SizedBox(height: 35),
 
-                    // BUTTON AJUKAN
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
