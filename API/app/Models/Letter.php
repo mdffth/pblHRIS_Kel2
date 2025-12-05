@@ -9,8 +9,11 @@ class Letter extends Model
 {
     use HasFactory;
 
+    protected $table = 'letters';
+
     protected $fillable = [
         'letter_format_id',
+        'employee_id',
         'name',
         'jabatan',
         'departemen',
@@ -19,13 +22,19 @@ class Letter extends Model
         'status',
     ];
 
-    protected $casts = [
-        'tanggal' => 'date',
-    ];
-
-    // Relasi ke LetterFormat
-    public function letterFormat()
+    /*
+     * Relasi ke Employee
+     */
+    public function employee()
     {
-        return $this->belongsTo(LetterFormat::class);
+        return $this->belongsTo(Employee::class);
+    }
+
+    /*
+     * Relasi ke LetterFormat
+     */
+    public function format()
+    {
+        return $this->belongsTo(LetterFormat::class, 'letter_format_id');
     }
 }
