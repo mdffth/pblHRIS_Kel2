@@ -13,14 +13,23 @@ class ApiService {
     return prefs.getString('token');
   }
 
+  // static Future<Map<String, String>> _headersWithToken() async {
+  //   final token = await _getToken();
+
+  //   return {
+  //     'Accept': 'application/json',
+  //     'Content-Type': 'application/json',
+  //     if (token != null) 'Authorization': 'Bearer $token',
+  //   };
+  // }
+
   static Future<Map<String, String>> _headersWithToken() async {
-    final token = await _getToken();
-    print(await _headersWithToken());
+    const token = "1|Mt3bgOtEUOaVsFacQAjMbEJvGrY6SdchCJXgJmB20dde084a";
 
     return {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
     };
   }
 

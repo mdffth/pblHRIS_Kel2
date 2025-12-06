@@ -34,31 +34,48 @@ class _FormSuratPageState extends State<FormSuratPage> {
     initData();
   }
 
-  
-
   Future<void> initData() async {
     setState(() => isLoading = true);
 
     try {
-      // 1. LOAD PROFILE
       final profile = await ApiService.fetchProfile();
-      final data = profile?['data'];
 
-      employeeId = data['employee_id'];
+      print("PROFILE RESPONSE => $profile");
+
+      if (profile == null || profile is! Map) {
+        throw "Response profile tidak valid";
+      }
+
+      // AMBIL EMPLOYEE (bukan data)
+      final data = profile['employee'];
+
+      if (data == null) {
+        throw "Key 'employee' tidak ditemukan di response";
+      }
+
+      // Simpan ID
+      employeeId = data['id'];
       positionId = data['position_id'];
       departmentId = data['department_id'];
 
-      namaController.text = data['name'];
-      jabatanController.text = data['jabatan'];
-      departemenController.text = data['departemen'];
+      // Autofill input
+      namaController.text = "${data['first_name']} ${data['last_name']}";
+      jabatanController.text = data['position']?['name'] ?? '';
+      departemenController.text = data['department']?['name'] ?? '';
 
-      // 2. LOAD LETTER TEMPLATE
+      // Load template surat
       templateList = await letterController.fetchLetterFormats();
     } catch (e) {
-      print("ERROR: $e");
+      print("ERROR initData(): $e");
+
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("Gagal memuat data: $e")));
+      }
     }
 
-    setState(() => isLoading = false);
+    if (mounted) setState(() => isLoading = false);
   }
 
   Future<void> pickDate() async {

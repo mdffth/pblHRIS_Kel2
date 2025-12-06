@@ -21,7 +21,7 @@ Route::delete('/letters/{id}', [LetterController::class, 'destroy']);
 // (pengajuan surat)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/letter/employee', [LetterSubmissionController::class, 'employeeInfo']);
-    Route::post('/letter/submit', [LetterSubmissionController::class, 'store']);
+    Route::post('/letters/submit', [LetterSubmissionController::class, 'store']);
     
 });
 

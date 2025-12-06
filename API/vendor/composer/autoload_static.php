@@ -409,8 +409,8 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         ),
         'League\\Uri\\' => 
         array (
-            0 => __DIR__ . '/..' . '/league/uri-interfaces',
-            1 => __DIR__ . '/..' . '/league/uri',
+            0 => __DIR__ . '/..' . '/league/uri',
+            1 => __DIR__ . '/..' . '/league/uri-interfaces',
         ),
         'League\\MimeTypeDetection\\' => 
         array (
@@ -566,14 +566,16 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
     public static $classMap = array (
         'App\\Http\\Controllers\\Api\\LetterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/LetterController.php',
         'App\\Http\\Controllers\\Api\\LetterFormatController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/LetterFormatController.php',
+        'App\\Http\\Controllers\\Api\\LetterSubmissionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/LetterSubmissionController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\LetterFormatController' => __DIR__ . '/../..' . '/app/Http/Controllers/LetterFormatController.php',
+        'App\\Http\\Middleware\\CorsMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/CorsMiddleware.php',
         'App\\Http\\Resources\\LetterCollection' => __DIR__ . '/../..' . '/app/Http/Resources/LetterCollection.php',
         'App\\Http\\Resources\\LetterFormatCollection' => __DIR__ . '/../..' . '/app/Http/Resources/LetterFormatCollection.php',
         'App\\Http\\Resources\\LetterFormatResource' => __DIR__ . '/../..' . '/app/Http/Resources/LetterFormatResource.php',
         'App\\Http\\Resources\\LetterResource' => __DIR__ . '/../..' . '/app/Http/Resources/LetterResource.php',
         'App\\Models\\CheckClock' => __DIR__ . '/../..' . '/app/Models/CheckClock.php',
-        'App\\Models\\Departement' => __DIR__ . '/../..' . '/app/Models/Departement.php',
+        'App\\Models\\Department' => __DIR__ . '/../..' . '/app/Models/Department.php',
         'App\\Models\\Employee' => __DIR__ . '/../..' . '/app/Models/Employee.php',
         'App\\Models\\Letter' => __DIR__ . '/../..' . '/app/Models/Letter.php',
         'App\\Models\\LetterFormat' => __DIR__ . '/../..' . '/app/Models/LetterFormat.php',
@@ -704,7 +706,11 @@ class ComposerStaticInitc514d8f7b9fc5970bdd94287905ef584
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
+        'Database\\Seeders\\DepartmentSeeder' => __DIR__ . '/../..' . '/database/seeders/DepartmentSeeder.php',
+        'Database\\Seeders\\EmployeeSeeder' => __DIR__ . '/../..' . '/database/seeders/EmployeeSeeder.php',
         'Database\\Seeders\\LetterFormatSeeder' => __DIR__ . '/../..' . '/database/seeders/LetterFormatSeeder.php',
+        'Database\\Seeders\\PositionSeeder' => __DIR__ . '/../..' . '/database/seeders/PositionSeeder.php',
+        'Database\\Seeders\\UserSeeder' => __DIR__ . '/../..' . '/database/seeders/UserSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
         'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
